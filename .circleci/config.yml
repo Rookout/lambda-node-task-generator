@@ -25,7 +25,7 @@ jobs:
 
       - run: 
           name: Set Token in serverless config
-          command: sed -i.bak -E 's!YOUR_ROOKOUT_TOKEN!$ROOKOUT_TOKEN!g' serverless.yml
+          command: sed -i.bak -E 's!YOUR_ROOKOUT_TOKEN!$DEMO_ROOKOUT_TOKEN!g' serverless.yml
 
       - run:
           name: Deploy application

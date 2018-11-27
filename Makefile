@@ -1,2 +1,2 @@
 set-token:
-	sed -i.bak -E 's!YOUR_ROOKOUT_TOKEN!${ROOKOUT_TOKEN}!g' serverless.yml
+	sed -i.bak -E 's!YOUR_ROOKOUT_TOKEN!${DEMO_ROOKOUT_TOKEN}!g' serverless.yml
