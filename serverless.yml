@@ -16,6 +16,7 @@ provider:
   timeout: 30
   environment:
     'ROOKOUT_TOKEN': 'YOUR_ROOKOUT_TOKEN'
+    'ROOKOUT_ROOK_TAGS': 'lambda-node-task-generator'
 
 package:
   excludeDevDependencies: true
