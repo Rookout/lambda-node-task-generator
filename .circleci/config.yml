@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ .checksum "package-lock.json" }}
+
+      - run:
+          name: Install Serverless CLI and dependencies
+          command: |
+            sudo npm i -g serverless
+            npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ .checksum "package-lock.json" }}
+
+      - run: 
+          name: Set Token in serverless config
+          command: sed -i.bak -E 's!YOUR_ROOKOUT_TOKEN!$ROOKOUT_TOKEN!g' serverless.yml
+
+      - run:
+          name: Deploy application
+          command: sls deploy
