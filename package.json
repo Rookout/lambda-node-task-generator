@@ -1,0 +1,20 @@
+{
+  "name": "lambda-task-generator",
+  "version": "1.0.0",
+  "description": "Rookout task generator for todo demo app",
+  "main": "task_generator.js",
+  "author": "Mickael Alliel",
+  "license": "ISC",
+  "repository": "https://github.com/Rookout/lambda-task-generator",
+  "scripts": {
+    "install-rookout": "docker run -v `pwd`:`pwd` -w `pwd` -i -t lambci/lambda:build-nodejs8.10 npm install --production",
+    "install-deploy-modules": "npm install --dev"
+  },
+  "dependencies": {
+    "rookout": "^0.1.29"
+  },
+  "devDependencies": {
+    "serverless": "^1.33.2",
+    "serverless-api-cloudfront": "^0.9.4"
+  }
+}

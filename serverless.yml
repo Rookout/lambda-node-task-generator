@@ -1,0 +1,34 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+
+# The `service` block is the name of the service
+service: task-generator
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: production
+  memorySize: 1024
+  timeout: 30
+  environment:
+    'ROOKOUT_TOKEN': 'YOUR_ROOKOUT_TOKEN'
+
+package:
+  excludeDevDependencies: true
+
+# The `functions` block defines what code to deploy
+functions:
+  generateTask:
+    description: Production demo - DO NOT DELETE
+    tags:
+      env: production
+    handler: task_generator.handler
+    events:
+      - http:
+          path: task
+          method: get
+          cors: true
