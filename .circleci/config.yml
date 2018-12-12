@@ -23,10 +23,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
 
-      - run: 
-          name: Set Token in serverless config
-          command: sed -i.bak -E "s!YOUR_ROOKOUT_TOKEN!$DEMO_ROOKOUT_TOKEN!g" serverless.yml
+      - run:
+          name: Deploy application to staging
+          command: sls deploy --stage staging --token ${STAGING_DEMO_ROOKOUT_TOKEN}
 
       - run:
-          name: Deploy application
-          command: sls deploy
+          name: Deploy application to production
+          command: sls deploy --stage production --token ${DEMO_ROOKOUT_TOKEN}
