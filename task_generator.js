@@ -1,7 +1,7 @@
 'use strict';
 const rookout = require('rookout/lambda');
 
-exports.handler = rookout.wrap((event, context, callback) => {
+exports.handler = rookout.wrapSync(2000, (event, context, callback) => {
   const headers = event.headers;
   if (headers['x-from'] == 'e2e-test') {
     console.log('E2E Test just triggered this function');
