@@ -46,7 +46,7 @@ jobs:
           command: |
             sudo npm i -g serverless
             npm install
-            
+
       - run:
           name: Deploy application to production
           command: sls deploy --stage production --token ${DEMO_ROOKOUT_TOKEN} --agenthost cloud.agent.rookout.com
@@ -57,10 +57,6 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - hold-for-approval:
-         type: approval
-         requires:
-             - build    
       - build
       - deploy-staging:
           requires:
@@ -68,6 +64,11 @@ workflows:
           filters:
             branches:
               only: build-on-branch-deploy-on-staging
+      - hold-for-approval:
+         type: approval
+         requires:
+            - build    
+            - deploy-staging              
       - deploy-production:
           requires:
             - build
