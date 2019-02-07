@@ -13,11 +13,6 @@ jobs:
             sudo npm i -g serverless
             npm install
 
-      - persist_to_workspace:
-          root: ~/repo
-          paths:
-            - node_modules
-
   deploy-staging:
     docker:
       - image: circleci/node:8.10
