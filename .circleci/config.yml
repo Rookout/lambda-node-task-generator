@@ -63,7 +63,7 @@ workflows:
             - build
           filters:
             branches:
-              only: build-on-branch-deploy-on-staging
+              only: master
       - hold-for-approval:
          type: approval
          requires:
@@ -76,4 +76,4 @@ workflows:
             - hold-for-approval
           filters:
             branches:
-              only: build-on-branch-deploy-on-staging              
+              only: master
