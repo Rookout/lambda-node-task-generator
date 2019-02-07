@@ -39,7 +39,7 @@ jobs:
           command: sls deploy --stage production --token ${DEMO_ROOKOUT_TOKEN} --agenthost cloud.agent.rookout.com
 
 workflows:
-  version: 2.1
+  version: 2
   build-and-deploy:
     jobs:
       - build
