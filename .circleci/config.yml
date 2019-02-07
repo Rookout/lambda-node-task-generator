@@ -1,36 +1,82 @@
 version: 2
 jobs:
   build:
-    branches:
-      only:
-       - master
     docker:
       - image: circleci/node:8.10
     working_directory: ~/repo
     steps:
       - checkout
-
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
-
       - run:
           name: Install Serverless CLI and dependencies
           command: |
             sudo npm i -g serverless
             npm install
 
-      - save_cache:
+      - persist_to_workspace:
+          root: ~/repo
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
 
+  deploy-staging:
+    docker:
+      - image: circleci/node:8.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - run:
+          name: Install Serverless CLI and dependencies
+          command: |
+            sudo npm i -g serverless
+            npm install
       - run:
           name: Deploy application to staging
           command: sls deploy --stage staging --token ${STAGING_DEMO_ROOKOUT_TOKEN} --agenthost staging.cloud.agent.rookout.com
 
+  deploy-production:
+    docker:
+      - image: circleci/node:8.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - run:
+          name: Install Serverless CLI and dependencies
+          command: |
+            sudo npm i -g serverless
+            npm install
+
       - run:
           name: Deploy application to production
           command: sls deploy --stage production --token ${DEMO_ROOKOUT_TOKEN} --agenthost cloud.agent.rookout.com
-          
+
+
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy-staging:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - hold-for-approval:
+         type: approval
+         requires:
+            - build    
+            - deploy-staging       
+         filters:
+          branches:
+            only: master                   
+      - deploy-production:
+          requires:
+            - build
+            - deploy-staging
+            - hold-for-approval
+          filters:
+            branches:
+              only: master
