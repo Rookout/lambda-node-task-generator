@@ -1,6 +1,9 @@
 version: 2
 jobs:
   build:
+    branches:
+      only:
+       - master
     docker:
       - image: circleci/node:8.10
     working_directory: ~/repo
@@ -31,7 +34,3 @@ jobs:
           name: Deploy application to production
           command: sls deploy --stage production --token ${DEMO_ROOKOUT_TOKEN} --agenthost cloud.agent.rookout.com
           
-  general:
-    branches:
-      only:
-       - master
