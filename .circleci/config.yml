@@ -6,7 +6,6 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -18,11 +17,19 @@ jobs:
             sudo npm i -g serverless
             npm install
 
-      - save_cache:
+      - persist_to_workspace:
+          root: ~/repo
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+            - .
 
+  deploy:
+    docker:
+      - image: circleci/node:8.10
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/repo    
       - run:
           name: Deploy application to staging
           command: sls deploy --stage staging --token ${STAGING_DEMO_ROOKOUT_TOKEN} --agenthost staging.cloud.agent.rookout.com
@@ -30,3 +37,15 @@ jobs:
       - run:
           name: Deploy application to production
           command: sls deploy --stage production --token ${DEMO_ROOKOUT_TOKEN} --agenthost cloud.agent.rookout.com
+
+workflows:
+  version: 2.1
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
