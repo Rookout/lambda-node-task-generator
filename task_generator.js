@@ -4,7 +4,7 @@ const rookout = require('rookout/lambda');
 exports.handler = rookout.wrap((event, context, callback) => {
   const headers = event.headers;
   if (headers['x-from'] == 'e2e-test') {
-    console.log('E2E Test just triggered this function');
+    console.log(`E2E Test just triggered this function - Req ID: ${headers['x-request-id']}`);
   }
 
   const tasks = [
