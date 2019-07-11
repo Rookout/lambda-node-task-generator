@@ -10,6 +10,6 @@
     "install-rookout": "docker run -v `pwd`:`pwd` -w `pwd` -i -t lambci/lambda:build-nodejs8.10 npm install --production"
   },
   "dependencies": {
-    "rookout": "^0.1.64"
+    "rookout": "^0.1.65"
   }
 }
