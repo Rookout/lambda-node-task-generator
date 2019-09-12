@@ -62,7 +62,7 @@ jobs:
 
       - run:
           name: Deploy application to production
-          command: sls deploy --stage production --token ${DEMO_ROOKOUT_TOKEN} --agenthost cloud.agent.rookout.com
+          command: sls deploy --stage production --token ${DEMO_ROOKOUT_TOKEN} --agenthost wss://control.rookout.com
 
   notify_slack_production:
     docker:
