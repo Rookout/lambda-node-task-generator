@@ -27,6 +27,8 @@ provider:
     'ROOKOUT_ROOK_TAGS': 'tasks-multi-infra'
     'ROOKOUT_LABELS': 'app:tasks-multi-infra,env:${self:custom.stage},type:serverless'
     'ROOKOUT_DEBUG': 1
+    'ROOKOUT_REMOTE_ORIGIN': 'https://github.com/Rookout/lambda-node-task-generator.git'
+    'ROOKOUT_COMMIT': 'master'
 
 package:
   excludeDevDependencies: true
